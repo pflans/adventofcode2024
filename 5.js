@@ -1416,39 +1416,9 @@ rules.split('\n').map(rule => {
     }
 })
 
-let sumOfMiddle = 0;
-
-// Part 1
-updates.split('\n').forEach(update => {
-    const pageNums = update.split(',');
-    let failure = false;
-    for (let i = 0; i < pageNums.length; i++){
-        const pageNum = pageNums[i];   
-        if (i > 0){
-            if (rulesMap.has(pageNum)){
-                const afterPages = rulesMap.get(pageNum);
-                for (let y = 0; y < i; y++){
-                    if (afterPages.indexOf(pageNums[y]) > -1){
-                        failure = true;
-                        break;
-                    }
-                }
-            }
-        }
-        if (failure){
-            break;
-        }
-    }
-    if (!failure){ 
-        const middle = Math.floor(pageNums.length / 2);
-        sumOfMiddle += parseInt(pageNums[middle]);
-    }
-});
-
-console.log('Part 1: ', sumOfMiddle);
-
-// Part 2
+let sumOfCorrect = 0;
 let sumOfIncorrect = 0;
+
 updates.split('\n').forEach(update => {
     const pageNums = update.split(',');
     let failure = false;
@@ -1468,10 +1438,14 @@ updates.split('\n').forEach(update => {
             }
         }
     }
-    if (failure){ 
+    if (!failure){ 
+        const middle = Math.floor(pageNums.length / 2);
+        sumOfCorrect += parseInt(pageNums[middle]);
+    } else {
         const middle = Math.floor(pageNums.length / 2);
         sumOfIncorrect += parseInt(pageNums[middle]);
     }
 });
 
+console.log('Part 1: ', sumOfCorrect);
 console.log('Part 2: ', sumOfIncorrect);
